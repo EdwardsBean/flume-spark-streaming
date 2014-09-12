@@ -1,0 +1,5 @@
+A real time compute project base on:
+- flume,ingest data
+- spark streaming,analyse data
+- redis,data store
+
