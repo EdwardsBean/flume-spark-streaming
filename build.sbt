@@ -1,4 +1,4 @@
-name := "spark-streaming-test"
+name := "flume-spark-streaming"
 
 version := "1.0"
 
