@@ -20,9 +20,11 @@ import redis.clients.jedis.Jedis
 object AppDownloadCount {
   val jedis = new Jedis("localhost")
 
+
   //123 熊猫看书 1410505200000
   //123 91desktop 1410505200000
   case class UserDownload(imei: String,appName: String,timestamp: String)
+
 
   def etl(flumeEvent:SparkFlumeEvent): Boolean = {
     val raw = new String(flumeEvent.event.getBody.array())
@@ -30,6 +32,15 @@ object AppDownloadCount {
     pairs.size == 3 && checkTime(pairs(0),pairs(1),pairs(2))
   }
 
+  /**
+   * TODO 考虑使用BloomFilter作为字典，每小时维护一个。过滤刷榜用户
+   * key: imei+appName
+   *
+   * @param imei
+   * @param currentTime
+   * @param appName
+   * @return
+   */
   def checkTime(imei:String, currentTime:String, appName:String):Boolean = {
     //查询redis
     val lastDownTime = jedis.hget(imei,appName)
@@ -101,4 +112,5 @@ object AppDownloadCount {
     ssc.start()
     ssc.awaitTermination()
   }
+
 }

@@ -1,6 +1,7 @@
 package com.edwardsbean.spark
 
 
+import org.apache.spark.SparkContext
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContext._
 import org.apache.spark.streaming._
